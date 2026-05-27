@@ -1,0 +1,164 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Change Admin Password{% endblock %}
+
+{% block admin_page_title %}Change Password{% endblock %}
+
+{% block admin_content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+            
+            {# Header Section #}
+            <div class="text-center mb-5">
+                <div class="mb-3">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" 
+                         style="width: 80px; height: 80px; background: linear-gradient(135deg, #2E073F 0%, #A976D1 100%); box-shadow: 0 10px 30px rgba(169, 118, 209, 0.3);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" viewBox="0 0 16 16">
+                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                        </svg>
+                    </div>
+                </div>
+                <h1 class="mb-2" style="font-family: 'Playfair Display', serif; color: #2E073F; font-weight: 700; font-size: 2.5rem;">
+                    Change Password
+                </h1>
+                <p class="text-muted mb-0" style="font-family: 'Roboto', sans-serif;">
+                    Update your account security credentials
+                </p>
+            </div>
+
+            {# Password Form Card #}
+            <div class="card border-0 rounded-4 overflow-hidden" style="box-shadow: 0 10px 40px rgba(46, 7, 63, 0.15);">
+                
+                {# Purple accent bar #}
+                <div style="height: 5px; background: linear-gradient(90deg, #2E073F 0%, #A976D1 50%, #2E073F 100%);"></div>
+                
+                <div class="card-body p-4 p-md-5">
+                    
+                    {{ form_start(form) }}
+
+                    {# Current Password #}
+                    <div class="mb-4 password-wrapper">
+                        <label class="form-label text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                            {{ form_label(form.currentPassword) }}
+                        </label>
+                        <div class="input-group">
+                            {{ form_widget(form.currentPassword, {'attr': {'class': 'form-control py-3 px-4 border-2', 'style': 'border-color: rgba(46, 7, 63, 0.2); font-family: Roboto, sans-serif;'}}) }}
+                            <button type="button" class="btn toggle-pass-btn" style="border: 2px solid rgba(46, 7, 63, 0.2); border-left: none; background: white;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2E073F" class="eye-icon" viewBox="0 0 16 16">
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        {{ form_errors(form.currentPassword) }}
+                    </div>
+
+                    {# Divider #}
+                    <div class="my-4 d-flex align-items-center">
+                        <div class="flex-grow-1" style="height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(169, 118, 209, 0.3) 50%, transparent 100%);"></div>
+                        <span class="px-3 text-muted small" style="font-family: 'Roboto', sans-serif;">New Password</span>
+                        <div class="flex-grow-1" style="height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(169, 118, 209, 0.3) 50%, transparent 100%);"></div>
+                    </div>
+
+                    {# New Password #}
+                    <div class="mb-4 password-wrapper">
+                        <label class="form-label text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                            {{ form_label(form.newPassword.first) }}
+                        </label>
+                        <div class="input-group">
+                            {{ form_widget(form.newPassword.first, {'attr': {'class': 'form-control py-3 px-4 border-2', 'style': 'border-color: rgba(46, 7, 63, 0.2); font-family: Roboto, sans-serif;'}}) }}
+                            <button type="button" class="btn toggle-pass-btn" style="border: 2px solid rgba(46, 7, 63, 0.2); border-left: none; background: white;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2E073F" class="eye-icon" viewBox="0 0 16 16">
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        {{ form_errors(form.newPassword.first) }}
+                    </div>
+
+                    {# Confirm New Password #}
+                    <div class="mb-4 password-wrapper">
+                        <label class="form-label text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                            {{ form_label(form.newPassword.second) }}
+                        </label>
+                        <div class="input-group">
+                            {{ form_widget(form.newPassword.second, {'attr': {'class': 'form-control py-3 px-4 border-2', 'style': 'border-color: rgba(46, 7, 63, 0.2); font-family: Roboto, sans-serif;'}}) }}
+                            <button type="button" class="btn toggle-pass-btn" style="border: 2px solid rgba(46, 7, 63, 0.2); border-left: none; background: white;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#2E073F" class="eye-icon" viewBox="0 0 16 16">
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        {{ form_errors(form.newPassword.second) }}
+                    </div>
+
+                    {# Password Requirements Info #}
+                    <div class="alert mb-4 p-3 rounded-3" style="background: rgba(169, 118, 209, 0.08); border-left: 3px solid #A976D1; border-top: none; border-right: none; border-bottom: none;">
+                        <div class="d-flex align-items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#A976D1" class="me-2 flex-shrink-0 mt-1" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            </svg>
+                            <small class="text-muted" style="font-family: 'Roboto', sans-serif; line-height: 1.6;">
+                                Password must be at least 8 characters long and contain a mix of letters, numbers, and special characters for enhanced security.
+                            </small>
+                        </div>
+                    </div>
+
+                    {# Submit Button #}
+                    <button type="submit" class="btn w-100 py-3 rounded-pill" style="background: linear-gradient(135deg, #2E073F 0%, #A976D1 100%); color: white; font-family: 'Roboto', sans-serif; font-weight: 600; font-size: 1rem; border: none; box-shadow: 0 8px 20px rgba(169, 118, 209, 0.3);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L8.5 11.793l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                        </svg>
+                        Update Password
+                    </button>
+
+                    {{ form_end(form) }}
+                    
+                </div>
+
+                {# Footer Note #}
+                <div class="text-center py-3 px-4" style="background: rgba(46, 7, 63, 0.03);">
+                    <small class="text-muted" style="font-family: 'Roboto', sans-serif;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                        </svg>
+                        Your password is encrypted and secure
+                    </small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    document.querySelectorAll('.toggle-pass-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const wrapper = button.closest('.password-wrapper');
+            if (!wrapper) return;
+
+            const input = wrapper.querySelector('input');
+            if (!input) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.querySelector('i').classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                button.querySelector('i').classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+    });
+
+});
+</script>
+{% endblock %}

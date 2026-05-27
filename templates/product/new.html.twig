@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Create New Product{% endblock %}
+{% block admin_page_title %}Create New Product{% endblock %}
+
+{% block admin_content %}
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="row w-100 justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+
+            {# Back Link with icon #}
+            <div class="mb-4 text-center text-lg-start">
+                <a href="{{ path('app_product_index') }}" class="text-decoration-none text-secondary fw-bold">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Products
+                </a>
+            </div>
+
+            {# Form Card centered #}
+            <div class="card shadow-sm border-0 rounded-4 mx-auto w-100">
+                <div class="card-body p-4 p-lg-5">
+
+                    {# Include the product form #}
+                    {{ include('product/_form.html.twig') }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% macro datatable(tableId, options = {}) %}
+<script>
+    document.addEventListener('turbo:load', function () {
+        const table = document.querySelector('#{{ tableId }}');
+        if (!table) return;
+
+        // If already initialized, destroy old instance first
+        if ($.fn.DataTable.isDataTable(table)) {
+            $(table).DataTable().destroy();
+        }
+
+        // Merge default options with custom options
+        const defaultOptions = {
+            searching: true,
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50, 100]
+        };
+        const finalOptions = Object.assign(defaultOptions, {{ options|json_encode|raw }});
+
+        // Initialize DataTable
+        $(table).DataTable(finalOptions);
+    });
+</script>
+{% endmacro %}

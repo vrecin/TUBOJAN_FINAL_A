@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Order{% endblock %}
+
+{% block admin_page_title %}Create New Order{% endblock %}
+
+{% block admin_content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-9">
+            
+            {# Header Section #}
+            <div class="mb-5">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="me-3" style="width: 5px; height: 60px; background: linear-gradient(180deg, #2E073F 0%, #A976D1 100%); border-radius: 4px;"></div>
+                    <div>
+                        <h1 class="mb-1" style="font-family: 'Playfair Display', serif; color: #2E073F; font-weight: 700; font-size: 2.5rem;">
+                            Create New Order
+                        </h1>
+                        <p class="text-muted mb-0" style="font-family: 'Roboto', sans-serif;">
+                            Process a new customer order
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {# Order Form Card #}
+            <div class="card border-0 rounded-4 overflow-hidden mb-4" style="box-shadow: 0 10px 40px rgba(46, 7, 63, 0.15);">
+                
+                {# Gradient Header #}
+                <div class="card-header border-0 py-4 px-4 px-md-5" style="background: linear-gradient(135deg, #2E073F 0%, #A976D1 100%);">
+                    <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="white" class="me-3" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <h5 class="mb-0" style="font-family: 'Playfair Display', serif; color: white; font-weight: 600; font-size: 1.4rem;">
+                            Order Information
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    
+                    {# Info Alert #}
+                    <div class="alert mb-4 p-4 rounded-3" style="background: linear-gradient(135deg, rgba(169, 118, 209, 0.1) 0%, rgba(46, 7, 63, 0.05) 100%); border-left: 4px solid #A976D1; border-top: none; border-right: none; border-bottom: none;">
+                        <div class="d-flex align-items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#A976D1" class="me-3 flex-shrink-0 mt-1" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                            </svg>
+                            <div style="font-family: 'Roboto', sans-serif; color: #2E073F; line-height: 1.6;">
+                                <strong style="font-weight: 600;">Important Information:</strong>
+                                <p class="mb-2 mt-2">Fill in the order details below. All fields marked with <span class="text-danger fw-bold">*</span> are required.</p>
+                                <p class="mb-0">
+                                    New orders will be created with 
+                                    <span class="badge px-3 py-1 rounded-pill" style="background: #ffc107; color: #000; font-family: 'Roboto', sans-serif; font-weight: 500;">
+                                        Pending
+                                    </span> 
+                                    status by default.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {# Order Form #}
+                    <div class="mt-4">
+                        {{ include('orders/_form.html.twig', {'hide_status': true}) }}
+                    </div>
+                </div>
+            </div>
+
+            {# Footer Actions #}
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3 p-4 rounded-3" style="background: rgba(169, 118, 209, 0.05);">
+                <a href="{{ path('app_orders_index') }}" 
+                   class="btn px-4 py-2 rounded-pill order-sm-1"
+                   style="border: 2px solid #2E073F; background: white; color: #2E073F; font-family: 'Roboto', sans-serif; font-weight: 500;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                    Back to Orders
+                </a>
+                
+                <div class="d-flex align-items-center text-muted order-sm-2" style="font-family: 'Roboto', sans-serif;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                    </svg>
+                    <small>{{ "now"|date('F d, Y') }}</small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</style>
+{% endblock %}

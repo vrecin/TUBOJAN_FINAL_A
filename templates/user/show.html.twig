@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Details{% endblock %}
+
+{% block admin_content %}
+<div class="moodura-details-container">
+    
+    {# Breadcrumb Navigation #}
+    <div class="moodura-breadcrumb">
+        <a href="{{ path('app_user_index') }}" class="breadcrumb-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Users</span>
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">{{ user.username }}</span>
+    </div>
+
+    <div class="row g-4">
+        
+        {# Left Column - User Profile Card #}
+        <div class="col-lg-4">
+            <div class="moodura-profile-card">
+                <div class="profile-card-header">
+                    <div class="profile-avatar">
+                        {{ user.username|slice(0, 1)|upper }}
+                    </div>
+                    
+                    <div class="profile-status">
+                        {% if user.isActive %}
+                            <span class="status-badge active">
+                                <i class="fas fa-check-circle"></i> Active
+                            </span>
+                        {% else %}
+                            <span class="status-badge inactive">
+                                <i class="fas fa-times-circle"></i> Inactive
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="profile-card-body">
+                    <h2 class="profile-name">{{ user.name }}</h2>
+                    <p class="profile-username">@{{ user.username }}</p>
+                    <p class="profile-email">{{ user.email }}</p>
+                    
+                    <div class="profile-roles">
+                        {% set roleDisplay = user.roles|json_encode|replace({'"': '', '[': '', ']': '', 'ROLE_': ''}) %}
+                        <span class="role-badge">{{ roleDisplay }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {# Action Buttons Card #}
+            <div class="moodura-actions-card">
+                <h3 class="actions-title">Quick Actions</h3>
+                
+                <div class="actions-list">
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="action-button edit">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit User</span>
+                    </a>
+                    
+                    <div class="action-button-wrapper">
+                        {{ include('user/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Right Column - Details #}
+        <div class="col-lg-8">
+            
+            {# Account Information Card #}
+            <div class="moodura-info-card">
+                <div class="info-card-header">
+                    <div class="header-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h3 class="info-card-title">Account Information</h3>
+                </div>
+                
+                <div class="info-card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-id-badge"></i>
+                                <span>User ID</span>
+                            </div>
+                            <div class="info-value">{{ user.id }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-user"></i>
+                                <span>Username</span>
+                            </div>
+                            <div class="info-value">{{ user.username }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-envelope"></i>
+                                <span>Email Address</span>
+                            </div>
+                            <div class="info-value">{{ user.email }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-signature"></i>
+                                <span>Full Name</span>
+                            </div>
+                            <div class="info-value">{{ user.name }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-user-tag"></i>
+                                <span>Role</span>
+                            </div>
+                            <div class="info-value">
+                                {% set roleDisplay = user.roles|json_encode|replace({'"': '', '[': '', ']': '', 'ROLE_': ''}) %}
+                                <span class="inline-role-badge">{{ roleDisplay }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-toggle-on"></i>
+                                <span>Account Status</span>
+                            </div>
+                            <div class="info-value">
+                                {% if user.isActive %}
+                                    <span class="status-indicator active">
+                                        <i class="fas fa-circle"></i> Active
+                                    </span>
+                                {% else %}
+                                    <span class="status-indicator inactive">
+                                        <i class="fas fa-circle"></i> Inactive
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Activity Timeline Card #}
+            <div class="moodura-info-card">
+                <div class="info-card-header">
+                    <div class="header-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="info-card-title">Activity Timeline</h3>
+                </div>
+                
+                <div class="info-card-body">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-marker created">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Account Created</div>
+                                <div class="timeline-date">{{ user.createdAt ? user.createdAt|date('F d, Y') : 'N/A' }}</div>
+                                <div class="timeline-time">{{ user.createdAt ? user.createdAt|date('h:i A') : '' }}</div>
+                            </div>
+                        </div>
+                        
+                        {% if user.updatedAt %}
+                        <div class="timeline-item">
+                            <div class="timeline-marker updated">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Last Updated</div>
+                                <div class="timeline-date">{{ user.updatedAt|date('F d, Y') }}</div>
+                                <div class="timeline-time">{{ user.updatedAt|date('h:i A') }}</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

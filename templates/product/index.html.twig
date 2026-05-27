@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Management{% endblock %}
+
+{% block admin_page_title %}Product Management{% endblock %}
+
+{% block admin_content %}
+<style>
+    .product-name {
+        color: #333;
+    }
+</style>
+<div class="product-management-container">
+    {# Header with View Toggle #}
+    <div class="header-actions">
+        <div class="view-toggle">
+            <a href="{{ path('app_product_index') }}" class="btn {{ showing is defined and showing == 'all' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                <i class="fas fa-th-large me-2"></i>All Products
+            </a>
+            <a href="{{ path('app_product_mine') }}" class="btn {{ showing is defined and showing == 'mine' ? 'btn-primary' : 'btn-outline-secondary' }}">
+                <i class="fas fa-user me-2"></i>My Products
+            </a>
+        </div>
+        <div>
+            <a class="btn btn-create" href="{{ path('app_product_new') }}">
+                <i class="fas fa-plus me-2"></i>Add New Product
+            </a>
+        </div>
+    </div>
+
+    {# Filter Section #}
+    <div class="filter-section">
+        <h6><i class="fas fa-filter me-2"></i>Filter Products</h6>
+        <form method="get" action="{{ path('app_product_index') }}" class="row g-3">
+            <div class="col-12 col-md-6 col-lg-3">
+                <input type="text" name="search" class="form-control" placeholder="Search by name..." value="{{ app.request.get('search') }}">
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <input type="number" step="0.01" name="min_price" class="form-control" placeholder="Min Price" value="{{ app.request.get('min_price') }}">
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <input type="number" step="0.01" name="max_price" class="form-control" placeholder="Max Price" value="{{ app.request.get('max_price') }}">
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+                <select name="category" class="form-control form-select">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if app.request.get('category') == category.id %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-lg-2 d-flex gap-2">
+                <button type="submit" class="btn btn-create flex-grow-1">
+                    <i class="fas fa-search"></i> Filter
+                </button>
+                <a href="{{ path('app_product_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+
+    {# Products Grid #}
+    {% if products is not empty %}
+    <div class="row g-4">
+        {% for product in products %}
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product.image %}
+                        <img src="{{ asset('uploads/products/' ~ product.image) }}" alt="{{ product.name }}">
+                    {% else %}
+                        <i class="fas fa-spray-can"></i>
+                    {% endif %}
+                </div>
+                <div class="product-body">
+                    <div class="product-name">{{ product.name }}</div>
+                    {% if product.category %}
+                        <div class="product-category">
+                            {{ product.category.name }}
+                        </div>
+                    {% endif %}
+                    <div class="product-description">{{ product.description }}</div>
+                    <div class="product-price">₱{{ product.price|number_format(2, '.', ',') }}</div>
+                    
+                    <div class="product-meta">
+                        <small><i class="far fa-calendar me-1"></i>Added: {{ product.createdAt ? product.createdAt|date('M d, Y') : '-' }}</small>
+                        {% if product.updatedAt %}
+                        <small><i class="far fa-clock me-1"></i>Updated: {{ product.updatedAt|date('M d, Y') }}</small>
+                        {% endif %}
+                        <div class="mt-2">
+                            <span class="badge">
+                                <i class="fas fa-user me-1"></i>{{ product.createdBy ? product.createdBy.username : 'System' }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions d-flex gap-2">
+                        <a href="{{ path('app_product_show', {'id': product.id}) }}" class="btn btn-sm btn-outline-primary" title="View Details">
+                            <i class="fas fa-eye"></i>
+                        </a>
+
+                        {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_STAFF') and product.createdBy == app.user) %}
+                            <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-outline-secondary" title="Edit Product">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        {% endif %}
+
+                        {% if is_granted('ROLE_ADMIN') or (is_granted('ROLE_STAFF') and product.createdBy == app.user) %}
+                            {{ include('product/_delete_form.html.twig') }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-spray-can"></i>
+        <h5>No Products Found</h5>
+        <p>Start by adding your first perfume to the collection</p>
+        <a class="btn btn-create" href="{{ path('app_product_new') }}">
+            <i class="fas fa-plus me-2"></i>Add First Product
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

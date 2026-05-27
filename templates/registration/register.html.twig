@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Account - Moodura Scents{% endblock %}
+
+{% block body %}
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5" style="background: linear-gradient(135deg, #2E073F 0%, #1a0427 50%, #2E073F 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-5">
+                
+                {# Brand Header #}
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" 
+                         style="width: 80px; height: 80px; background: linear-gradient(135deg, #A976D1 0%, #2E073F 100%); box-shadow: 0 10px 30px rgba(169, 118, 209, 0.5);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="white" viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                        </svg>
+                    </div>
+                    <h1 class="mb-2" style="font-family: 'Playfair Display', serif; color: white; font-weight: 700; font-size: 2rem;">
+                        Moodura Scents
+                    </h1>
+                    <p class="mb-0" style="font-family: 'Roboto', sans-serif; color: rgba(255, 255, 255, 0.7);">
+                        Join our community
+                    </p>
+                </div>
+
+                {# Registration Card #}
+                <div class="card border-0 rounded-4 overflow-hidden" style="box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);">
+                    
+                    {# Purple accent bar #}
+                    <div style="height: 4px; background: linear-gradient(90deg, #A976D1 0%, #2E073F 50%, #A976D1 100%);"></div>
+                    
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <div class="text-center mb-4">
+                            <h2 class="mb-2" style="font-family: 'Playfair Display', serif; color: #2E073F; font-weight: 700;">
+                                Create Account
+                            </h2>
+                            <p class="text-muted mb-0" style="font-family: 'Roboto', sans-serif;">
+                                Join us and explore our scent collection
+                            </p>
+                        </div>
+
+                        {% if form_errors(registrationForm) %}
+                            <div class="alert alert-danger d-flex align-items-start p-3 mb-4 rounded-3" style="border-left: 3px solid #dc3545;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2 flex-shrink-0 mt-1" viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                </svg>
+                                <span style="font-family: 'Roboto', sans-serif;">
+                                    {{ form_errors(registrationForm) }}
+                                </span>
+                            </div>
+                        {% endif %}
+
+                        {{ form_start(registrationForm) }}
+
+                        <div class="mb-4">
+                            <label for="{{ registrationForm.username.vars.id }}" class="form-label text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                                Username
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text border-2" style="border-color: rgba(46, 7, 63, 0.2); background: white;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2E073F" viewBox="0 0 16 16">
+                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                    </svg>
+                                </span>
+                                {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control py-3 px-3 border-2', 'style': 'border-color: rgba(46, 7, 63, 0.2); border-left: none; font-family: \'Roboto\', sans-serif;', 'placeholder': 'Choose your username'}}) }}
+                            </div>
+                            {% if form_errors(registrationForm.username) %}
+                                <small style="color: #dc3545; font-family: 'Roboto', sans-serif; display: block; margin-top: 0.5rem;">
+                                    {{ form_errors(registrationForm.username) }}
+                                </small>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ registrationForm.email.vars.id }}" class="form-label text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                                Email
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text border-2" style="border-color: rgba(46, 7, 63, 0.2); background: white;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2E073F" viewBox="0 0 16 16">
+                                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 5.41.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm9.436-1.273l-5.803 3.558L16 4.697v7.104Z"/>
+                                    </svg>
+                                </span>
+                                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control py-3 px-3 border-2', 'style': 'border-color: rgba(46, 7, 63, 0.2); border-left: none; font-family: \'Roboto\', sans-serif;', 'placeholder': 'Enter your email'}}) }}
+                            </div>
+                            {% if form_errors(registrationForm.email) %}
+                                <small style="color: #dc3545; font-family: 'Roboto', sans-serif; display: block; margin-top: 0.5rem;">
+                                    {{ form_errors(registrationForm.email) }}
+                                </small>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ registrationForm.name.vars.id }}" class="form-label text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                                Full Name
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text border-2" style="border-color: rgba(46, 7, 63, 0.2); background: white;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2E073F" viewBox="0 0 16 16">
+                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                    </svg>
+                                </span>
+                                {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control py-3 px-3 border-2', 'style': 'border-color: rgba(46, 7, 63, 0.2); border-left: none; font-family: \'Roboto\', sans-serif;', 'placeholder': 'Enter your full name'}}) }}
+                            </div>
+                            {% if form_errors(registrationForm.name) %}
+                                <small style="color: #dc3545; font-family: 'Roboto', sans-serif; display: block; margin-top: 0.5rem;">
+                                    {{ form_errors(registrationForm.name) }}
+                                </small>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="{{ registrationForm.plainPassword.vars.id }}" class="form-label text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                                Password
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text border-2" style="border-color: rgba(46, 7, 63, 0.2); background: white;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2E073F" viewBox="0 0 16 16">
+                                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                                    </svg>
+                                </span>
+                                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control py-3 px-3 border-2', 'style': 'border-color: rgba(46, 7, 63, 0.2); border-left: none; font-family: \'Roboto\', sans-serif;', 'placeholder': 'Create a strong password'}}) }}
+                            </div>
+                            {% if form_errors(registrationForm.plainPassword) %}
+                                <small style="color: #dc3545; font-family: 'Roboto', sans-serif; display: block; margin-top: 0.5rem;">
+                                    {{ form_errors(registrationForm.plainPassword) }}
+                                </small>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-grid mb-4">
+                            <button class="btn py-3 rounded-pill" type="submit" style="background: linear-gradient(135deg, #2E073F 0%, #A976D1 100%); color: white; font-family: 'Roboto', sans-serif; font-weight: 600; font-size: 1rem; border: none; box-shadow: 0 8px 20px rgba(169, 118, 209, 0.3);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                </svg>
+                                Create Account
+                            </button>
+                        </div>
+
+                        {{ form_rest(registrationForm) }}
+                    </div>
+
+                    {# Footer #}
+                    <div class="text-center py-3 px-4" style="background: rgba(46, 7, 63, 0.03);">
+                        <small style="font-family: 'Roboto', sans-serif; color: #2E073F;">
+                            Already have an account?
+                            <a href="{{ path('app_login') }}" class="fw-bold" style="color: #A976D1; text-decoration: none;">
+                                Sign in
+                            </a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

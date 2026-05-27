@@ -1,0 +1,37 @@
+{{ form_start(form, {'attr': {'class': 'product-form'}}) }}
+    <div class="form-content">
+        {{ form_row(form.name, {
+            'label': 'Product Name',
+            'attr': {'class': 'form-control', 'placeholder': 'Enter product name'}
+        }) }}
+
+        {{ form_row(form.description, {
+            'label': 'Description',
+            'attr': {'class': 'form-control', 'placeholder': 'Enter product description', 'rows': 4}
+        }) }}
+
+        {{ form_row(form.price, {
+            'label': 'Price',
+            'attr': {'class': 'form-control', 'placeholder': '0.00'}
+        }) }}
+
+        {{ form_row(form.category, {
+            'label': 'Category',
+            'attr': {'class': 'form-control'}
+        }) }}
+
+        {{ form_row(form.image, {
+            'label': 'Product Image',
+            'attr': {'class': 'form-control'}
+        }) }}
+    </div>
+
+    <div class="form-actions mt-4 d-flex gap-2">
+        <button type="submit" class="btn btn-success">
+            {{ button_label|default('Save Product') }}
+        </button>
+        <a href="{{ path('app_product_index') }}" class="btn btn-secondary">
+            Cancel
+        </a>
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Change Staff Password{% endblock %}
+
+{% block admin_page_title %}Change Password{% endblock %}
+
+{% block admin_content %}
+<div class="password-card">
+    {{ form_start(form) }}
+
+    <!-- Current Password -->
+    <div class="mb-3 password-wrapper">
+        {{ form_label(form.currentPassword) }}
+        <div class="input-group">
+            {{ form_widget(form.currentPassword, {'attr': {'class': 'form-control'}}) }}
+            <button type="button" class="btn btn-outline-secondary toggle-pass-btn">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+        {{ form_errors(form.currentPassword) }}
+    </div>
+
+    <!-- New Password -->
+    <div class="mb-3 password-wrapper">
+        {{ form_label(form.newPassword.first) }}
+        <div class="input-group">
+            {{ form_widget(form.newPassword.first, {'attr': {'class': 'form-control'}}) }}
+            <button type="button" class="btn btn-outline-secondary toggle-pass-btn">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+        {{ form_errors(form.newPassword.first) }}
+    </div>
+
+    <!-- Confirm New Password -->
+    <div class="mb-3 password-wrapper">
+        {{ form_label(form.newPassword.second) }}
+        <div class="input-group">
+            {{ form_widget(form.newPassword.second, {'attr': {'class': 'form-control'}}) }}
+            <button type="button" class="btn btn-outline-secondary toggle-pass-btn">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+        {{ form_errors(form.newPassword.second) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Update Password</button>
+
+    {{ form_end(form) }}
+</div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    document.querySelectorAll('.toggle-pass-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const wrapper = button.closest('.password-wrapper');
+            if (!wrapper) return;
+
+            const input = wrapper.querySelector('input');
+            if (!input) return;
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.querySelector('i').classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                button.querySelector('i').classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+    });
+
+});
+</script>
+{% endblock %}

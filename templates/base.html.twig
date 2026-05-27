@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Admin Dashboard{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+       
+         {% block stylesheets %}{% endblock %}
+
+        {% block javascripts %}
+                        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+                    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+<body>
+     {% block body %}
+        <div class="container-fluid">
+            <div class="row">
+                {# Sidebar #}
+                <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse" id="sidebarMenu">
+                    <div class="position-sticky pt-4">
+                        {# Brand Logo/Title #}
+                        <div class="text-center text-white mb-4 pb-4 border-bottom border-secondary px-3">
+                            <div class="brand-icon" style="width: 50px; height: 50px; background: rgba(169, 118, 209, 0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; cursor: pointer;">
+                                <i class="fas fa-spray-can" style="font-size: 1.5rem; color: var(--moodura-secondary);"></i>
+                            </div>
+                            <h5 class="mb-1">
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    Moodura Scents
+                                {% elseif is_granted('ROLE_STAFF') %}
+                                    Staff Panel
+                                {% endif %}
+                            </h5>
+                            <p class="small mb-0" style="opacity: 0.7;"></p>
+                        </div>
+
+                        <ul class="nav flex-column">
+                            {# ADMIN MENU #}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item">
+                                    <a class="nav-link {{ app.request.get('_route') starts with 'app_admin_dashboard' ? 'active' : '' }}"
+                                       href="{{ path('app_admin_dashboard') }}">
+                                        <i class="fas fa-chart-line"></i> Dashboard
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_user_' %}active{% endif %}" 
+                                       href="{{ path('app_user_index') }}">
+                                        <i class="fas fa-users"></i> Manage Users
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_product_' %}active{% endif %}" 
+                                       href="{{ path('app_product_index') }}">
+                                        <i class="fas fa-spray-can"></i> Products
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_category_' %}active{% endif %}" 
+                                       href="{{ path('app_category_index') }}">
+                                        <i class="fas fa-tags"></i> Categories
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_orders_' %}active{% endif %}" 
+                                       href="{{ path('app_orders_index') }}">
+                                        <i class="fas fa-shopping-bag"></i> Orders
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_activity_' %}active{% endif %}" 
+                                       href="{{ path('app_activity_log') }}">
+                                        <i class="fas fa-clock-rotate-left"></i> Activity Logs
+                                    </a>
+                                </li>
+
+                                {# Separator #}
+                                <hr class="text-secondary my-3">
+
+                                {# Account Section Label #}
+                                <li class="px-3 mb-2">
+                                    <small class="text-white-50" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Account</small>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_admin_view' %}active{% endif %}" 
+                                       href="{{ path('app_admin_view_profile') }}">
+                                        <i class="fas fa-user-circle"></i> My Profile
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_logout') }}">
+                                        <i class="fas fa-right-from-bracket"></i> Logout
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {# STAFF MENU #}
+                            {% if is_granted('ROLE_STAFF') and not is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_product_' %}active{% endif %}" 
+                                       href="{{ path('app_product_index') }}">
+                                        <i class="fas fa-spray-can"></i> Products
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_orders_' %}active{% endif %}" 
+                                       href="{{ path('app_orders_index') }}">
+                                        <i class="fas fa-shopping-bag"></i> Orders
+                                    </a>
+                                </li>
+
+                                {# Separator #}
+                                <hr class="text-secondary my-3">
+
+                                {# Account Section Label #}
+                                <li class="px-3 mb-2">
+                                    <small class="text-white-50" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Account</small>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link {% if app.request.get('_route') starts with 'app_staff_view' %}active{% endif %}" 
+                                       href="{{ path('app_staff_view_profile') }}">
+                                        <i class="fas fa-user-circle"></i> My Profile
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_logout') }}">
+                                        <i class="fas fa-right-from-bracket"></i> Logout
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    {# Bottom Brand Mark #}
+                    <div class="sidebar-footer">
+                        <small class="text-white" style="font-size: 0.7rem; opacity: 0.6;">Moodura Scents © 2025</small>
+                    </div>
+                </nav>
+
+                {# Main Content #}
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    {# Top Navbar for Mobile #}
+                    <nav class="navbar navbar-dark d-md-none sticky-top">
+                        <div class="container-fluid">
+                            <span class="navbar-brand mb-0 h1">
+                                <i class="fas fa-spray-can me-2"></i>Moodura Admin
+                            </span>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                                    data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" 
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                    </nav>
+
+                    {# Breadcrumb and Page Title #}
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-4 pb-3 mb-4 border-bottom">
+                        <h1 class="h2">{% block admin_page_title %}Dashboard{% endblock %}</h1>
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            <div class="btn-group me-2">
+                                {# Optional: Add quick action buttons here #}
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Flash Messages #}
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                                <div class="d-flex align-items-center">
+                                    {% if label == 'success' %}
+                                        <i class="fas fa-check-circle me-2"></i>
+                                    {% elseif label == 'error' or label == 'danger' %}
+                                        <i class="fas fa-exclamation-circle me-2"></i>
+                                    {% elseif label == 'warning' %}
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                    {% elseif label == 'info' %}
+                                        <i class="fas fa-info-circle me-2"></i>
+                                    {% endif %}
+                                    <span>{{ message }}</span>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    {# Main Content Area #}
+                    <div class="main-content pb-5">
+                        {% block admin_content %}{% endblock %}
+                    </div>
+                </main>
+            </div>
+        </div>
+    {% endblock %}
+</body>
+</html>

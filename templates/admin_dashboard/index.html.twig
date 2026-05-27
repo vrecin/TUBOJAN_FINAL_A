@@ -1,0 +1,212 @@
+{% extends 'base.html.twig' %}
+
+{% block page_title %}Admin Dashboard{% endblock %}
+
+{% block admin_page_title %}Admin Dashboard{% endblock %}
+
+{% block admin_content %}
+<div class="dashboard-container">
+    <div class="container-fluid px-4">
+        
+        {# Hero Welcome Section #}
+        <div class="welcome-hero mb-5">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-2" style="color: #2E073F; font-family: 'Playfair Display', serif;">
+                        Welcome back, {{ app.user.name }}
+                    </h1>
+                    <p class="text-muted mb-0">Here's what's happening with your store today.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill">
+                        <i class="fas fa-calendar-alt me-2"></i>{{ "now"|date('F d, Y') }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        {# Stats Grid - Different Layout #}
+        <div class="row g-4 mb-5">
+            {# Large Featured Card #}
+            <div class="col-12 col-lg-6">
+                <div class="stat-card-featured h-100 p-4" style="background: linear-gradient(135deg, #2E073F 0%, #A976D1 100%); border-radius: 16px;">
+                    <div class="text-white">
+                        <div class="mb-3">
+                            <i class="fas fa-users" style="font-size: 2.5rem; opacity: 0.9;"></i>
+                        </div>
+                        <h2 class="display-4 fw-bold mb-2">{{ totalUsers }}</h2>
+                        <p class="mb-3 opacity-90">Total Users Registered</p>
+                        <a href="{{ path('app_user_index') }}" class="btn btn-light btn-sm rounded-pill px-4">
+                            View Details <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {# Stacked Small Cards #}
+            <div class="col-12 col-lg-6">
+                <div class="row g-4 h-100">
+                    <div class="col-12">
+                        <div class="stat-card-compact p-4" style="background: #F8F5FA; border-left: 4px solid #A976D1; border-radius: 12px;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="text-muted small mb-1">Staff Members</div>
+                                    <h3 class="fw-bold mb-0" style="color: #2E073F;">{{ totalStaff }}</h3>
+                                </div>
+                                <div style="width: 50px; height: 50px; background: #A976D1; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-user-tie text-white" style="font-size: 1.5rem;"></i>
+                                </div>
+                            </div>
+                            <a href="{{ path('app_user_index') }}" class="text-decoration-none mt-2 d-inline-block small" style="color: #A976D1;">
+                                Manage Staff →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card-compact p-4" style="background: #F8F5FA; border-left: 4px solid #2E073F; border-radius: 12px;">
+                            <div class="text-muted small mb-1">Products</div>
+                            <h3 class="fw-bold mb-2" style="color: #2E073F;">{{ totalProducts }}</h3>
+                            <a href="{{ path('app_product_index') }}" class="text-decoration-none small" style="color: #A976D1;">
+                                View →
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-card-compact p-4" style="background: #F8F5FA; border-left: 4px solid #2E073F; border-radius: 12px;">
+                            <div class="text-muted small mb-1">Categories</div>
+                            <h3 class="fw-bold mb-2" style="color: #2E073F;">{{ totalCategory }}</h3>
+                            <a href="{{ path('app_category_index') }}" class="text-decoration-none small" style="color: #A976D1;">
+                                View →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Content Grid - Reversed Layout #}
+        <div class="row g-4">
+            {# Recent Activity - Left Side (Larger) #}
+            <div class="col-12 col-lg-8">
+                <div class="content-card p-4" style="background: white; border-radius: 16px; border: 1px solid #E8E2EE;">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h3 class="mb-1" style="color: #2E073F; font-family: 'Playfair Display', serif;">Recent Activity</h3>
+                            <p class="text-muted small mb-0">Latest updates from your team</p>
+                        </div>
+                        <a href="{{ path('app_activity_log') }}" class="btn btn-sm rounded-pill px-3" style="background: #F8F5FA; color: #A976D1; border: 1px solid #E8E2EE;">
+                            View All
+                        </a>
+                    </div>
+                    
+                    {% if recentLogs is not empty %}
+                        <div class="activity-timeline">
+                            {% for log in recentLogs %}
+                                <div class="activity-timeline-item mb-3 pb-3" style="border-bottom: 1px solid #F0EBF5;">
+                                    <div class="d-flex gap-3">
+                                        <div class="activity-icon-wrapper flex-shrink-0" style="width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+                                            {% if log.action == 'Create' %}background: #E8F5E9;
+                                            {% elseif log.action == 'Update' %}background: #E3F2FD;
+                                            {% elseif log.action == 'Delete' %}background: #FFEBEE;
+                                            {% elseif log.action == 'Login' %}background: #F3E5F5;
+                                            {% elseif log.action == 'Logout' %}background: #F5F5F5;
+                                            {% endif %}">
+                                            {% if log.action == 'Create' %}
+                                                <i class="fas fa-plus" style="color: #4CAF50;"></i>
+                                            {% elseif log.action == 'Update' %}
+                                                <i class="fas fa-pen" style="color: #2196F3;"></i>
+                                            {% elseif log.action == 'Delete' %}
+                                                <i class="fas fa-trash-alt" style="color: #F44336;"></i>
+                                            {% elseif log.action == 'Login' %}
+                                                <i class="fas fa-sign-in-alt" style="color: #A976D1;"></i>
+                                            {% elseif log.action == 'Logout' %}
+                                                <i class="fas fa-sign-out-alt" style="color: #9E9E9E;"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <div class="mb-1">
+                                                <span class="fw-semibold" style="color: #2E073F;">{{ log.username ?? 'System' }}</span>
+                                                <span class="text-muted">
+                                                    {% if log.action == 'Create' %}created
+                                                    {% elseif log.action == 'Update' %}updated
+                                                    {% elseif log.action == 'Delete' %}deleted
+                                                    {% elseif log.action == 'Login' %}logged in
+                                                    {% elseif log.action == 'Logout' %}logged out
+                                                    {% else %}{{ log.action|lower }}
+                                                    {% endif %}
+                                                </span>
+                                                <span style="color: #A976D1;">{{ log.targetData }}</span>
+                                            </div>
+                                            <div class="small text-muted">
+                                                <i class="far fa-clock me-1"></i>{{ log.createdAt|date('M d, Y h:i A') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <div style="width: 80px; height: 80px; background: #F8F5FA; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                                <i class="fas fa-clipboard-list" style="font-size: 2rem; color: #A976D1; opacity: 0.5;"></i>
+                            </div>
+                            <p class="text-muted mb-0">No recent activity to display</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Quick Actions - Right Side (Sidebar Style) #}
+            <div class="col-12 col-lg-4">
+                <div class="content-card p-4" style="background: linear-gradient(180deg, #2E073F 0%, #4A1A5C 100%); border-radius: 16px;">
+                    <h3 class="text-white mb-4" style="font-family: 'Playfair Display', serif;">Quick Actions</h3>
+                    <div class="d-flex flex-column gap-3">
+                        <a href="{{ path('app_product_new') }}" class="quick-action-btn" style="background: white; color: #2E073F; padding: 1rem; border-radius: 12px; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="width: 40px; height: 40px; background: #F8F5FA; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-spray-can" style="color: #A976D1;"></i>
+                                </div>
+                                <span class="fw-semibold">New Product</span>
+                            </div>
+                            <i class="fas fa-arrow-right" style="color: #A976D1;"></i>
+                        </a>
+                        
+                        <a href="{{ path('app_user_new') }}" class="quick-action-btn" style="background: rgba(255,255,255,0.1); color: white; padding: 1rem; border-radius: 12px; text-decoration: none; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <span class="fw-semibold">New User</span>
+                            </div>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        
+                        <a href="{{ path('app_category_new') }}" class="quick-action-btn" style="background: rgba(255,255,255,0.1); color: white; padding: 1rem; border-radius: 12px; text-decoration: none; display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-folder-plus"></i>
+                                </div>
+                                <span class="fw-semibold">New Category</span>
+                            </div>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    {# Quick Stats in Sidebar #}
+                    <div class="mt-4 pt-4" style="border-top: 1px solid rgba(255,255,255,0.2);">
+                        <p class="text-white-50 small mb-3">System Overview</p>
+                        <div class="d-flex justify-content-between text-white mb-2">
+                            <span class="small">Total Items</span>
+                            <span class="fw-semibold">{{ totalProducts + totalCategory }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between text-white">
+                            <span class="small">Team Size</span>
+                            <span class="fw-semibold">{{ totalStaff + totalUsers }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

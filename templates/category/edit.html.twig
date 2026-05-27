@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Category{% endblock %}
+{% block admin_page_title %}Edit Category{% endblock %}
+{% block admin_content %}
+<div class="moodura-edit-container">
+    
+    {# Breadcrumb Navigation #}
+    <div class="moodura-breadcrumb">
+        <a href="{{ path('app_category_index') }}" class="breadcrumb-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Categories</span>
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Edit Category</span>
+    </div>
+
+    <div class="row g-4">
+        {# Main Form Section #}
+        <div class="col-lg-8">
+            <div class="moodura-form-card">
+                <div class="form-card-header">
+                    <div class="header-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <div class="header-text">
+                        <h2 class="form-card-title">Category Details</h2>
+                        <p class="form-card-subtitle">Update category information and settings</p>
+                    </div>
+                </div>
+                
+                <div class="form-card-body">
+                    {{ include('category/_form.html.twig', {'button_label': 'Update Category'}) }}
+                </div>
+            </div>
+        </div>
+
+        {# Sidebar Actions #}
+        <div class="col-lg-4">
+            {# Quick Info Card #}
+            <div class="moodura-info-card">
+                <div class="info-card-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h3 class="info-card-title">Information</h3>
+                </div>
+                <div class="info-card-body">
+                    <div class="info-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <p>Make sure the category name is unique and descriptive</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Changes will be reflected immediately after updating</p>
+                    </div>
+                </div>
+            </div>
+
+            {# Danger Zone Card #}
+            <div class="moodura-danger-card">
+                <div class="danger-card-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3 class="danger-card-title">Danger Zone</h3>
+                </div>
+                <div class="danger-card-body">
+                    <p class="danger-warning">
+                        Deleting this category is permanent and cannot be undone. 
+                        All associated data will be removed.
+                    </p>
+                    <div class="danger-action">
+                        {{ include('category/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

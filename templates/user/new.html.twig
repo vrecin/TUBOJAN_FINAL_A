@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block admin_content %}
+<div class="moodura-form-container">
+    
+    {# Breadcrumb Navigation #}
+    <div class="moodura-breadcrumb">
+        <a href="{{ path('app_user_index') }}" class="breadcrumb-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Back to Users</span>
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Create New User</span>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
+            
+            {# Form Card #}
+            <div class="moodura-create-card">
+                
+                {# Card Header #}
+                <div class="create-card-header">
+                    <div class="header-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="header-content">
+                        <h1 class="header-title">Add New User</h1>
+                        <p class="header-subtitle">Create a new user account with access credentials</p>
+                    </div>
+                </div>
+
+                {# Card Body #}
+                <div class="create-card-body">
+                    
+                    {# Info Alert #}
+                    <div class="moodura-info-alert">
+                        <div class="alert-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="alert-content">
+                            <strong>Important:</strong> Please fill in all required fields carefully. 
+                            The user will receive their credentials to access the system.
+                        </div>
+                    </div>
+
+                    {# User Form #}
+                    <div class="form-wrapper">
+                        {{ include('user/_form.html.twig') }}
+                    </div>
+                </div>
+
+                {# Card Footer #}
+                <div class="create-card-footer">
+                    <div class="footer-tips">
+                        <div class="tip-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Ensure strong password requirements</span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>Valid email address required</span>
+                        </div>
+                        <div class="tip-item">
+                            <i class="fas fa-user-tag"></i>
+                            <span>Assign appropriate user roles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block admin_content %}
+
+<div class="moodura-edit-container">
+    
+    {# Breadcrumb Navigation #}
+    <div class="moodura-breadcrumb">
+        <a href="{{ path('app_user_index') }}" class="breadcrumb-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Users</span>
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Edit User</span>
+    </div>
+
+    <div class="row g-4">
+        {# Main Form Section #}
+        <div class="col-lg-8">
+            <div class="moodura-form-card">
+                <div class="form-card-header">
+                    <div class="header-icon">
+                        <i class="fas fa-user-edit"></i>
+                    </div>
+                    <div class="header-text">
+                        <h2 class="form-card-title">Edit User Account</h2>
+                        <p class="form-card-subtitle">Update user information and account settings</p>
+                    </div>
+                </div>
+                
+                <div class="form-card-body">
+                    {{ include('user/_form.html.twig', {'button_label': 'Update User'}) }}
+                </div>
+            </div>
+        </div>
+
+        {# Sidebar #}
+        <div class="col-lg-4">
+            {# Guidelines Card #}
+            <div class="moodura-info-card">
+                <div class="info-card-header">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3 class="info-card-title">Guidelines</h3>
+                </div>
+                <div class="info-card-body">
+                    <div class="guideline-item">
+                        <i class="fas fa-check-circle"></i>
+                        <p>Verify all changes before updating</p>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fas fa-key"></i>
+                        <p>Leave password blank to keep current</p>
+                    </div>
+                    <div class="guideline-item">
+                        <i class="fas fa-user-shield"></i>
+                        <p>Review role permissions carefully</p>
+                    </div>
+                </div>
+            </div>
+
+            {# Danger Zone Card #}
+            <div class="moodura-danger-card">
+                <div class="danger-card-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3 class="danger-card-title">Danger Zone</h3>
+                </div>
+                <div class="danger-card-body">
+                    <p class="danger-warning">
+                        Deleting this user is permanent and cannot be undone. 
+                        All user data and activity will be permanently removed from the system.
+                    </p>
+                    <div class="danger-action">
+                        {{ include('user/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

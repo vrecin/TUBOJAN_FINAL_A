@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category Details{% endblock %}
+{% block admin_page_title %}Category Details{% endblock %}
+{% block admin_content %}
+<div class="min-vh-100 py-5" style="background: linear-gradient(180deg, #A976D1 0%, #2E073F 100%);">
+    <div class="container">
+        
+        {# Back Navigation - Top Left #}
+        <div class="mb-4">
+            <a href="{{ path('app_category_index') }}" 
+               class="btn btn-light px-4 py-2 rounded-pill shadow-sm"
+               style="font-family: 'Roboto', sans-serif; font-weight: 500; border: 2px solid rgba(255,255,255,0.3);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                Back to Categories
+            </a>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-lg-10 col-xl-9 mx-auto">
+                
+                {# Main Content Container #}
+                <div class="position-relative">
+                    
+                    {# Decorative Element #}
+                    <div class="position-absolute top-0 start-0 translate-middle ms-4 mt-4 d-none d-md-block" 
+                         style="width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-radius: 20px; transform: rotate(45deg);"></div>
+                    
+                    {# Category Card #}
+                    <div class="card border-0 rounded-4 overflow-hidden position-relative" 
+                         style="background: white; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);">
+                        
+                        {# Header Section #}
+                        <div class="px-4 px-md-5 pt-5 pb-4" style="background: linear-gradient(135deg, rgba(169, 118, 209, 0.1) 0%, rgba(46, 7, 63, 0.05) 100%);">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3" style="width: 4px; height: 48px; background: linear-gradient(180deg, #2E073F 0%, #A976D1 100%); border-radius: 4px;"></div>
+                                <div>
+                                    <h1 class="mb-0" style="font-family: 'Playfair Display', serif; color: #2E073F; font-size: 2.5rem; font-weight: 700;">
+                                        {{ category.name }}
+                                    </h1>
+                                </div>
+                            </div>
+                            <p class="text-muted mb-0 ms-5" style="font-family: 'Roboto', sans-serif;">
+                                Category #{{ category.id }}
+                            </p>
+                        </div>
+
+                        {# Details Grid #}
+                        <div class="px-4 px-md-5 py-5">
+                            <div class="row g-4">
+                                
+                                {# ID Detail #}
+                                <div class="col-12 col-md-6">
+                                    <div class="detail-item p-4 rounded-3" style="background: rgba(169, 118, 209, 0.05); border-left: 3px solid #A976D1;">
+                                        <label class="text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                                            Category ID
+                                        </label>
+                                        <p class="mb-0 fs-5" style="font-family: 'Roboto', sans-serif; color: #2E073F;">
+                                            {{ category.id }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {# Name Detail #}
+                                <div class="col-12 col-md-6">
+                                    <div class="detail-item p-4 rounded-3" style="background: rgba(46, 7, 63, 0.05); border-left: 3px solid #2E073F;">
+                                        <label class="text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                                            Category Name
+                                        </label>
+                                        <p class="mb-0 fs-5" style="font-family: 'Roboto', sans-serif; color: #2E073F;">
+                                            {{ category.name }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {# Created At Detail #}
+                                <div class="col-12 col-md-6">
+                                    <div class="detail-item p-4 rounded-3" style="background: rgba(169, 118, 209, 0.05); border-left: 3px solid #A976D1;">
+                                        <label class="text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                                            Created At
+                                        </label>
+                                        <p class="mb-0 fs-5" style="font-family: 'Roboto', sans-serif; color: #2E073F;">
+                                            {{ category.createdAt ? category.createdAt|date('F j, Y • g:i A') : 'N/A' }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {# Created By Detail #}
+                                <div class="col-12 col-md-6">
+                                    <div class="detail-item p-4 rounded-3" style="background: rgba(46, 7, 63, 0.05); border-left: 3px solid #2E073F;">
+                                        <label class="text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                                            Created By
+                                        </label>
+                                        <p class="mb-0 fs-5" style="font-family: 'Roboto', sans-serif; color: #2E073F;">
+                                            {{ category.createdBy ? category.createdBy.username : 'Unknown' }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {# Action Buttons Footer #}
+                        <div class="px-4 px-md-5 pb-5">
+                            <div class="d-flex flex-column flex-sm-row gap-3 justify-content-between align-items-center p-4 rounded-3" 
+                                 style="background: linear-gradient(135deg, rgba(169, 118, 209, 0.08) 0%, rgba(46, 7, 63, 0.08) 100%);">
+                                
+                                <div class="text-center text-sm-start">
+                                    <p class="mb-0 text-muted small" style="font-family: 'Roboto', sans-serif;">
+                                        Manage this category
+                                    </p>
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <a href="{{ path('app_category_edit', {'id': category.id}) }}" 
+                                       class="btn px-4 py-2 rounded-pill"
+                                       style="background: linear-gradient(135deg, #2E073F 0%, #A976D1 100%); color: white; font-family: 'Roboto', sans-serif; font-weight: 500; border: none;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                        </svg>
+                                        Edit Category
+                                    </a>
+                                    
+                                    {{ include('category/_delete_form.html.twig') }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Details{% endblock %}
+
+{% block admin_content %}
+<div class="moodura-product-container">
+    
+    {# Breadcrumb Navigation #}
+    <div class="moodura-breadcrumb">
+        <a href="{{ path('app_product_index') }}" class="breadcrumb-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Products</span>
+        </a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">{{ product.name }}</span>
+    </div>
+
+    <div class="row g-4">
+        
+        {# Left Column - Product Image Card #}
+        <div class="col-lg-5">
+            <div class="moodura-image-card">
+                <div class="image-card-header">
+                    <h3 class="image-card-title">Product Image</h3>
+                </div>
+                
+                <div class="image-card-body">
+                    {% if product.image %}
+                        <div class="product-image-wrapper">
+                            <img 
+                                src="{{ asset('uploads/products/' ~ product.image) }}" 
+                                alt="{{ product.name }}" 
+                                class="product-image"
+                            >
+                        </div>
+                    {% else %}
+                        <div class="product-image-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>No Image Available</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Quick Actions Card #}
+            <div class="moodura-actions-card">
+                <h3 class="actions-title">Quick Actions</h3>
+                
+                <div class="actions-list">
+                    <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="action-button edit">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit Product</span>
+                    </a>
+                    
+                    <div class="action-button-wrapper">
+                        {{ include('product/_delete_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Right Column - Product Details #}
+        <div class="col-lg-7">
+            
+            {# Product Header Card #}
+            <div class="moodura-product-header">
+                <div class="product-title-section">
+                    <h1 class="product-name">{{ product.name }}</h1>
+                    <div class="product-price">₱{{ product.price|number_format(2, '.', ',') }}</div>
+                </div>
+                
+                {% if product.category %}
+                    <div class="product-category-badge">
+                        <i class="fas fa-tag"></i>
+                        <span>{{ product.category.name }}</span>
+                    </div>
+                {% endif %}
+            </div>
+
+            {# Product Description Card #}
+            <div class="moodura-info-card">
+                <div class="info-card-header">
+                    <div class="header-icon">
+                        <i class="fas fa-align-left"></i>
+                    </div>
+                    <h3 class="info-card-title">Description</h3>
+                </div>
+                
+                <div class="info-card-body">
+                    <p class="product-description">{{ product.description }}</p>
+                </div>
+            </div>
+
+            {# Product Information Card #}
+            <div class="moodura-info-card">
+                <div class="info-card-header">
+                    <div class="header-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h3 class="info-card-title">Product Information</h3>
+                </div>
+                
+                <div class="info-card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-hashtag"></i>
+                                <span>Product ID</span>
+                            </div>
+                            <div class="info-value">{{ product.id }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-box"></i>
+                                <span>Product Name</span>
+                            </div>
+                            <div class="info-value">{{ product.name }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-peso-sign"></i>
+                                <span>Price</span>
+                            </div>
+                            <div class="info-value price-highlight">₱{{ product.price|number_format(2, '.', ',') }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-layer-group"></i>
+                                <span>Category</span>
+                            </div>
+                            <div class="info-value">
+                                {% if product.category %}
+                                    <span class="category-tag">{{ product.category.name }}</span>
+                                {% else %}
+                                    <span class="text-muted">N/A</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-user"></i>
+                                <span>Created By</span>
+                            </div>
+                            <div class="info-value">{{ product.createdBy ? product.createdBy.username : 'N/A' }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-calendar-plus"></i>
+                                <span>Created At</span>
+                            </div>
+                            <div class="info-value">{{ product.createdAt ? product.createdAt|date('M d, Y H:i') : '-' }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Updated At</span>
+                            </div>
+                            <div class="info-value">{{ product.updatedAt ? product.updatedAt|date('M d, Y H:i') : '-' }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,442 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About Us Moodura SCENT{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+
+{% endblock %}
+
+{% block body %}
+<div class="about-page">
+
+  {# ── Navigation ── #}
+  <nav class="about-nav">
+    <a href="{{ path('app_home') }}" class="brand">
+      Moodura
+      <span>SCENTS</span>
+    </a>
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-right" id="mobileMenu">
+      <li><a href="{{ path('app_home') }}">Home</a></li>
+      <li><a href="{{ path('app_about') }}" class="active">About Us</a></li>
+      <li><a href="{{ path('app_contact') }}">Contact Us</a></li>
+      <li>
+        {% if app.user %}
+          <div class="dropdown">
+            <button class="btn btn-sm dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background:var(--moodura-violet);color:#fff;padding:.45rem 1.2rem;border-radius:999px;font-family:sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.05em;border:none;cursor:pointer;">
+              <i class="fas fa-user me-2"></i>{{ app.user.username }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="userDropdown" style="color:#333;">
+              <li><a class="dropdown-item" href="{{ path('app_logout') }}" style="color:#333;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        {% else %}
+          <a href="{{ path('app_login') }}" style="background:var(--moodura-violet);color:#fff;padding:.45rem 1.2rem;border-radius:999px;font-family:sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.05em;text-decoration:none;transition:background .3s;">Login</a>
+        {% endif %}
+      </li>
+    </ul>
+  </nav>
+
+  {# ── Hero ── #}
+  <section class="about-hero">
+    <p class="eyebrow">Our Story</p>
+    <h1>Fragrances Born<br>from Feeling</h1>
+    <p>We believe every mood deserves its own scent. A signature that speaks before words do.</p>
+  </section>
+
+  {# ── Brand Story ── #}
+  <div class="brand-story">
+    <div class="brand-story-inner">
+      <div class="brand-story-text">
+        <div class="section-label">Who We Are</div>
+        <h2 class="section-title">Moodura SCENT</h2>
+        <div class="section-divider"></div>
+        <p>Moodura was founded on a simple belief: fragrance is the most intimate form of self-expression. Each bottle in our collection is a distillation of an emotion. Crafted for the moments you feel most like yourself.</p>
+        <p>From melancholy to bliss, rage to serenity, our master perfumers translate the full spectrum of human feeling into wearable art. Every scent tells a story. Yours.</p>
+      </div>
+      <div class="brand-story-visual">
+        <div class="stat-row">
+          <div class="stat-item">
+            <span class="stat-num">40+</span>
+            <span class="stat-label">Fragrances</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">12</span>
+            <span class="stat-label">Moods</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-num">5K+</span>
+            <span class="stat-label">Customers</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# ── Meet the Maker ── #}
+  <section class="about-section">
+    <div class="section-label">The Mind Behind Moodura</div>
+    <h2 class="section-title">Meet the Maker</h2>
+    <div class="section-divider"></div>
+
+    <div class="solo-profile">
+
+      {# ── Left: Photo + pills ── #}
+      <div class="solo-left">
+        <div class="solo-avatar">
+          <img src="{{ asset('images/products/LEA.png') }}" alt="Lea Tubojan">
+        </div>
+        <div class="solo-pills">
+          <span class="value-pill">✦ Passion-Driven</span>
+          <span class="value-pill">✦ Mood-Inspired</span>
+          <span class="value-pill">✦ Artisan Craft</span>
+          <span class="value-pill">✦ Inclusive</span>
+        </div>
+      </div>
+
+      {# ── Right: Name, roles, bio ── #}
+      <div class="solo-right">
+        <p class="solo-name">Lea Tubojan</p>
+        <p class="solo-tagline">"Every mood deserves its own signature."</p>
+
+        <div class="role-chips">
+          <span class="role-chip">Project Lead</span>
+          <span class="role-chip">Backend Developer</span>
+          <span class="role-chip">UI / UX Designer</span>
+          <span class="role-chip">Frontend Developer</span>
+          <span class="role-chip">QA Engineer</span>
+          <span class="role-chip">Mobile Developer</span>
+        </div>
+
+        <div class="role-grid">
+          <div class="role-card">
+            <span class="role-card-icon">◈</span>
+            <div>
+              <p class="role-card-title">Project Lead</p>
+              <p class="role-card-desc">Oversees the product vision and makes sure every feature feels as intentional as a top note.</p>
+            </div>
+          </div>
+          <div class="role-card">
+            <span class="role-card-icon">◈</span>
+            <div>
+              <p class="role-card-title">Backend Developer</p>
+              <p class="role-card-desc">Architects the APIs and databases that keep Moodura's shelves stocked and orders flowing.</p>
+            </div>
+          </div>
+          <div class="role-card">
+            <span class="role-card-icon">◈</span>
+            <div>
+              <p class="role-card-title">UI / UX Designer</p>
+              <p class="role-card-desc">Translates mood into pixels. Every lavender card and deep-purple sidebar is her handiwork.</p>
+            </div>
+          </div>
+          <div class="role-card">
+            <span class="role-card-icon">◈</span>
+            <div>
+              <p class="role-card-title">Frontend Developer</p>
+              <p class="role-card-desc">Brings designs to life with clean, responsive Twig templates and buttery-smooth interactions.</p>
+            </div>
+          </div>
+          <div class="role-card">
+            <span class="role-card-icon">◈</span>
+            <div>
+              <p class="role-card-title">QA Engineer</p>
+              <p class="role-card-desc">Sniffs out every bug so the shopping experience stays as smooth as a base note of sandalwood.</p>
+            </div>
+          </div>
+          <div class="role-card">
+            <span class="role-card-icon">◈</span>
+            <div>
+              <p class="role-card-title">Mobile Developer</p>
+              <p class="role-card-desc">Builds the API endpoints that power Moodura on every screen, big or small.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  {# ── Footer ── #}
+  <footer class="about-footer">
+    <p>© 2025, Moodura SCENT. All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+  // Mobile menu toggle
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  function closeMenu() {
+    mobileMenu.classList.remove('active');
+    mobileMenuToggle.classList.remove('open');
+  }
+  
+  function openMenu() {
+    mobileMenu.classList.add('active');
+    mobileMenuToggle.classList.add('open');
+  }
+  
+  function toggleMenu() {
+    if (mobileMenu.classList.contains('active')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+  
+  if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleMenu();
+    });
+    
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        closeMenu();
+      });
+    });
+    
+    document.addEventListener('click', function(e) {
+      if (!mobileMenuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+        closeMenu();
+      }
+    });
+  }
+</script>
+
+<style>
+  /* ══════════════════════ NAVBAR BASE STYLES ══════════════════════ */
+  .about-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #2E073F 0%, #1a0427 100%);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .about-nav .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+  }
+
+  .about-nav .brand:hover {
+    opacity: 0.8;
+  }
+
+  .about-nav .brand span {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  /* Mobile Menu Styles */
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+  }
+
+  .mobile-menu-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-menu-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+  }
+
+  .mobile-menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+
+  /* Responsive Navbar */
+  @media (min-width: 769px) {
+    .mobile-menu-toggle {
+      display: none !important;
+    }
+
+    .about-nav .nav-right {
+      display: flex !important;
+      position: static !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      top: auto !important;
+      flex-direction: row !important;
+      list-style: none;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .about-nav .nav-right li {
+      border: none !important;
+      padding: 0 !important;
+    }
+
+    .about-nav .nav-right li a {
+      display: inline !important;
+      padding: 0 !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-nav {
+      flex-wrap: wrap;
+      padding: 1rem 1.5rem;
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
+    }
+
+    .about-nav .nav-right {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: linear-gradient(135deg, #2E073F 0%, #1a0427 100%);
+      padding: 1rem;
+      gap: 0;
+      border-top: 1px solid rgba(169, 118, 209, 0.3);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      list-style: none;
+      margin: 0;
+    }
+
+    .about-nav .nav-right.active {
+      display: flex;
+    }
+
+    .about-nav .nav-right li {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .about-nav .nav-right li:last-child {
+      border-bottom: none;
+    }
+
+    .about-nav .nav-right li a {
+      display: block;
+      padding: 0.5rem 0;
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .about-nav .nav-right li a:hover {
+      color: var(--moodura-violet, #A976D1);
+    }
+
+    /* About Hero */
+    .about-hero {
+      padding: 2rem 1.5rem;
+    }
+
+    .about-hero h1 {
+      font-size: 1.75rem;
+      line-height: 1.3;
+    }
+
+    .about-hero p {
+      font-size: 0.95rem;
+      word-wrap: break-word;
+    }
+
+    /* Brand Story */
+    .brand-story {
+      padding: 2rem 1.5rem;
+    }
+
+    .brand-story-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .brand-story-text h2,
+    .section-label {
+      font-size: 1.3rem;
+    }
+
+    .brand-story-text p {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      word-wrap: break-word;
+    }
+
+    /* Footer */
+    .about-footer {
+      padding: 2rem 1.5rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .about-nav {
+      padding: 0.75rem 1rem;
+    }
+
+    .brand {
+      font-size: 0.9rem;
+    }
+
+    .brand span {
+      font-size: 0.55rem;
+    }
+
+    .about-hero h1 {
+      font-size: 1.4rem;
+    }
+
+    .about-hero p {
+      font-size: 0.85rem;
+    }
+
+    .brand-story-text h2 {
+      font-size: 1.2rem;
+    }
+
+    .brand-story-text p {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+{% endblock %}

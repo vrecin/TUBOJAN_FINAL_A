@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Staff Profile{% endblock %}
+
+{% block admin_page_title %}My Profile{% endblock %}
+
+{% block admin_content %}
+<div class="profile-container">
+
+    {# ================= PROFILE HEADER ================= #}
+    <div class="profile-header text-center mb-4">
+        <div class="profile-avatar">
+            {{ app.user.name|slice(0, 1)|upper }}
+        </div>
+
+        <div class="profile-name">{{ app.user.name }}</div>
+        <div class="profile-username">@{{ app.user.username }}</div>
+
+        <div class="profile-roles mt-2">
+            {% for role in app.user.roles %}
+                <span class="role-badge">
+                    {{ role|replace({'ROLE_': ''})|title }}
+                </span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        {# ================= LEFT COLUMN ================= #}
+        <div class="col-lg-8">
+
+            {# ---- Account Information ---- #}
+            <div class="profile-info mb-4">
+                <div class="info-section-title">Account Information</div>
+
+                <div class="info-row">
+                    <div class="info-label">Full Name</div>
+                    <div class="info-value">{{ app.user.name }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Username</div>
+                    <div class="info-value">{{ app.user.username }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Email Address</div>
+                    <div class="info-value">{{ app.user.email }}</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Account Type</div>
+                    <div class="info-value">
+                        {% for role in app.user.roles %}
+                            <span class="role-badge">
+                                {{ role|replace({'ROLE_': ''})|title }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            {# ---- Activity Information ---- #}
+            <div class="profile-info">
+                <div class="info-section-title">Activity Information</div>
+
+                <div class="info-row">
+                    <div class="info-label">Member Since</div>
+                    <div class="info-value">
+                        {{ app.user.createdAt|date('F d, Y') }}
+                    </div>
+                </div>
+
+                {% if app.user.updatedAt %}
+                    <div class="info-row">
+                        <div class="info-label">Last Updated</div>
+                        <div class="info-value">
+                            {{ app.user.updatedAt|date('F d, Y h:i A') }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {# ================= RIGHT COLUMN ================= #}
+        <div class="col-lg-4">
+
+            <div class="profile-actions">
+                <div class="action-title">Quick Actions</div>
+
+                {# ---- CHANGE PASSWORD BUTTON ---- #}
+                <a href="{{ path('app_change_staff_password') }}"
+                   class="action-btn btn-primary-action d-flex align-items-center gap-2">
+                    <i class="bi bi-key"></i>
+                    <span>Change Password</span>
+                </a>
+
+                {# ---- LOGOUT BUTTON ---- #}
+                <a href="{{ path('app_logout') }}"
+                   class="action-btn d-flex align-items-center gap-2">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

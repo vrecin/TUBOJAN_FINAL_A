@@ -1,0 +1,826 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moodura SCENT Express Yourself Through Fragrance{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="lp">
+  {# ══════════════════════
+     NAV
+  ══════════════════════ #}
+  <nav class="lp-nav">
+    <a href="{{ path('app_home') }}" class="brand">
+      Moodura
+      <span>SCENTS</span>
+    </a>
+
+    <div class="nav-center">
+      <svg width="14" height="14" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search for fragrances, mood, or occasions">
+    </div>
+
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-right" id="mobileMenu">
+      <li><a href="{{ path('app_home') }}">Home</a></li>
+      <li><a href="{{ path('app_about') }}">About Us</a></li>
+      <li><a href="{{ path('app_contact') }}">Contact Us</a></li>
+      <li>
+        {% if app.user %}
+          <div class="dropdown">
+            <button class="btn btn-sm dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="background:var(--mv);color:#fff;padding:.45rem 1.2rem;border-radius:999px;font-family:sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.05em;border:none;cursor:pointer;">
+              <i class="fas fa-user me-2"></i>{{ app.user.username }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="userDropdown" style="color:#333;">
+              <li><a class="dropdown-item" href="{{ path('app_logout') }}" style="color:#333;"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        {% else %}
+          <a href="{{ path('app_login') }}" style="background:var(--mv);color:#fff;padding:.45rem 1.2rem;border-radius:999px;font-family:sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.05em;text-decoration:none;transition:background .3s;">Login</a>
+        {% endif %}
+      </li>
+    </ul>
+  </nav>
+
+  {# ══════════════════════
+     SECTION 1 — HERO
+  ══════════════════════ #}
+  <section class="hero">
+    <div class="hero-text">
+      <h1>
+        Welcome!<br>
+        Express yourself<br>
+        through <em>fragrances</em><br>
+        inspired by moods.
+      </h1>
+      <p>Every scent tells a story. Find yours from mysterious and brooding to bright and blissful.</p>
+      
+        Start Exploring
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-mood-box">
+      <div class="hero-discount-card">
+        <div>
+          <p class="dc-label">Discount<br>Fragrances</p>
+          <p class="dc-sub">Up to 30% off selected scents</p>
+        </div>
+        <span class="dc-badge">Shop Sale</span>
+      </div>
+
+      <div class="mood-selector-card">
+        <h3>What's your mood today?</h3>
+        <select id="moodSelect">
+          <option value="">Select mood</option>
+          <option>Mysterious</option>
+          <option>Bliss</option>
+          <option>Rage</option>
+          <option>Melancholy</option>
+          <option>Cool</option>
+          <option>Happy</option>
+          <option>Serenity</option>
+        </select>
+        <button class="mood-btn" onclick="exploreMood()">Start Exploring</button>
+      </div>
+    </div>
+  </section>
+
+  {# ══════════════════════
+     SECTION 2 — BEST SELLERS
+  ══════════════════════ #}
+  <section class="bestsellers">
+    <p class="sec-heading">Our Collection</p>
+    <h2 style="color:#fff;margin-bottom:2.5rem;">Best Seller Fragrances</h2>
+
+    <div class="product-grid">
+
+      {# Product cards — replace src with {{ asset('images/products/...' ) }} #}
+      <div class="product-card">
+        <div class="product-img">
+          <img src="{{ asset('images/products/silky.webp') }}" alt="Silky Wood Elixir"> 
+          
+        </div>
+        <div class="product-info">
+          <p class="product-name">Silky Wood Elixir</p>
+          <p class="product-mood">Mood: Mysterious</p>
+          <p class="product-price">₱ 1,200</p>
+          <a href="{{ path('app_product_show', {id: 1}) }}" class="add-to-cart">Add to Cart</a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+        <img src="{{ asset('images/products/jullie.webp') }}" alt="Juliet Has a Gun"> 
+          
+        </div>
+        <div class="product-info">
+          <p class="product-name">Juliet Has a Gun</p>
+          <p class="product-mood">Mood: Rage</p>
+          <p class="product-price">₱ 1,580</p>
+          <a href="{{ path('app_product_show', {id: 2}) }}" class="add-to-cart">Add to Cart</a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+        <img src="{{ asset('images/products/impadia.webp') }}" alt="Impadia"> 
+         
+        </div>
+        <div class="product-info">
+          <p class="product-name">Impadia</p>
+          <p class="product-mood">Mood: Bliss</p>
+          <p class="product-price">₱ 980</p>
+          <a href="{{ path('app_product_show', {id: 3}) }}" class="add-to-cart">Add to Cart</a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img">
+        <img src="{{ asset('images/products/rue.webp') }}" alt="Midnight Rue"> 
+          
+    
+        </div>
+        <div class="product-info">
+          <p class="product-name">Midnight Rue</p>
+          <p class="product-mood">Mood: Melancholy</p>
+          <p class="product-price">₱ 1,380</p>
+          <a href="{{ path('app_product_show', {id: 4}) }}" class="add-to-cart">Add to Cart</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  {# ══════════════════════
+     SECTION 3 — POPULAR MOODS
+  ══════════════════════ #}
+  <section class="moods">
+    <p class="sec-label">Browse by Feeling</p>
+    <h2>Popular Moods</h2>
+
+    <div class="moods-grid">
+      <div class="mood-card melancholy">
+        <img src="{{ asset('images/products/melancholy.jpg') }}" alt="Melancholy">
+        <span class="mood-name">Melancholy</span>
+      </div>
+      <div class="mood-card cool">
+        <img src="{{ asset('images/products/cool.jpg') }}" alt="Cool">
+        <span class="mood-name">Cool</span>
+      </div>
+      <div class="mood-card mysterious">
+        <img src="{{ asset('images/products/mystery.jpg') }}" alt="Mysterious">
+        <span class="mood-name">Mysterious</span>
+      </div>
+    </div>
+  </section>
+
+  {# ══════════════════════
+     SECTION 4 — WHY MOODURA
+  ══════════════════════ #}
+  <section class="why">
+    <div class="why-inner">
+      <p class="sec-label">Why Choose Us</p>
+      <h2>Scent Crafted with Intent</h2>
+      <div class="why-divider"></div>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">✦</div>
+          <h3>Mood-Matched</h3>
+          <p>Every fragrance is meticulously mapped to a human emotion wear the feeling that resonates.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🍃</div>
+          <h3>Natural Ingredients</h3>
+          <p>We source only premium botanicals and sustainable raw materials for every bottle.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🎁</div>
+          <h3>Gift-Ready Packaging</h3>
+          <p>Every order arrives beautifully boxed the perfect gift for someone who feels everything.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">🚚</div>
+          <h3>Fast Delivery</h3>
+          <p>Nationwide shipping with real-time order tracking straight from your dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ══════════════════════
+     SECTION 5 — TESTIMONIALS
+  ══════════════════════ #}
+  <section class="testimonials">
+    <p class="sec-label">What Our Customers Say</p>
+    <h2>Real Feelings, Real Reviews</h2>
+
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Silky Wood Elixir changed how I present myself at work. People always ask what I'm wearing."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">VR</div>
+          <div>
+            <p class="testi-name">Vrecin R.</p>
+            <p class="testi-mood-tag">Mood: Mysterious</p>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"I bought Impadia as a gift and she cried. That's all I needed to know."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AL</div>
+          <div>
+            <p class="testi-name">Alice L.</p>
+            <p class="testi-mood-tag">Mood: Bliss</p>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★☆</div>
+        <p class="testi-quote">"Midnight Rue is hauntingly beautiful. Packaging was flawless, delivery was fast."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">BM</div>
+          <div>
+            <p class="testi-name">Ben M.</p>
+            <p class="testi-mood-tag">Mood: Melancholy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# ══════════════════════
+     SECTION 6 — NEWSLETTER
+  ══════════════════════ #}
+  <section class="newsletter">
+    <h2>Stay Up to Date</h2>
+    <p>Subscribe to our newsletter to receive exclusive news about our new items and promotions.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="Enter your email">
+      <button type="button">Subscribe</button>
+    </div>
+  </section>
+
+  {# ══════════════════════
+     FOOTER
+  ══════════════════════ #}
+  <footer class="lp-footer">
+    <div class="footer-top">
+      <div>
+        <p class="footer-brand-name">Moodura</p>
+        <p class="footer-brand-sub">SCENT</p>
+        <p class="footer-brand-desc">Express yourself through fragrances inspired by moods and personalities.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Moodura</h4>
+        <ul>
+          <li><a href="{{ path('app_about') }}">About Us</a></li>
+          <li><a href="{{ path('app_contact') }}">Contact Us</a></li>
+          
+          <li><a href="#">The Stores</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Returns Policy</a></li>
+          <li><a href="{{ path('app_contact') }}">Contact Us</a></li>
+          <li><a href="#">Shipping Policies</a></li>
+          <li><a href="#">Refund Policy</a></li>
+          <li><a href="#">Order Tracking</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Pinterest</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025, Moodura SCENT All rights reserved.</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Mobile menu toggle
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  
+  function closeMenu() {
+    mobileMenu.classList.remove('active');
+    mobileMenuToggle.classList.remove('open');
+  }
+  
+  function openMenu() {
+    mobileMenu.classList.add('active');
+    mobileMenuToggle.classList.add('open');
+  }
+  
+  function toggleMenu() {
+    if (mobileMenu.classList.contains('active')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+  
+  if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      toggleMenu();
+    });
+    
+    // Close menu when a link is clicked
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        closeMenu();
+      });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!mobileMenuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+        closeMenu();
+      }
+    });
+  }
+
+  function exploreMood() {
+    const val = document.getElementById('moodSelect').value;
+    if (val) {
+      window.location.href = '/products?mood=' + encodeURIComponent(val);
+    }
+  }
+</script>
+
+<style>
+  /* ══════════════════════ NAVBAR BASE STYLES ══════════════════════ */
+  .lp-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #2E073F 0%, #1a0427 100%);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+  }
+
+  .brand:hover {
+    opacity: 0.8;
+  }
+
+  .brand span {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
+
+  .nav-center {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    max-width: 400px;
+    margin: 0 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 24px;
+    border: 1px solid rgba(169, 118, 209, 0.3);
+  }
+
+  .nav-center input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 0.85rem;
+    outline: none;
+  }
+
+  .nav-center input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .nav-center svg {
+    flex-shrink: 0;
+  }
+
+  /* Mobile Menu Styles */
+  .mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+  }
+
+  .mobile-menu-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-menu-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+  }
+
+  .mobile-menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-menu-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+
+  /* Responsive Navbar */
+  @media (min-width: 769px) {
+    .nav-center {
+      display: flex;
+    }
+
+    .mobile-menu-toggle {
+      display: none !important;
+    }
+
+    .nav-right {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+      position: static !important;
+      background: none !important;
+      box-shadow: none !important;
+      border: none !important;
+      z-index: auto !important;
+      flex-direction: row !important;
+    }
+
+    .nav-right li {
+      border: none;
+      padding: 0;
+    }
+
+    .nav-right li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+      display: inline;
+      padding: 0;
+    }
+
+    .nav-right li a:hover {
+      color: var(--mv, #A976D1);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .nav-right {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: linear-gradient(135deg, #2E073F 0%, #1a0427 100%);
+      padding: 1rem;
+      gap: 0;
+      border-top: 1px solid rgba(169, 118, 209, 0.3);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      list-style: none;
+      margin: 0;
+    }
+
+    .nav-right.active {
+      display: flex;
+    }
+
+    .nav-right li {
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-right li:last-child {
+      border-bottom: none;
+    }
+
+    .nav-right li a {
+      display: block;
+      padding: 0.5rem 0;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 2rem 1.5rem;
+      flex-direction: column;
+    }
+
+    .hero-text h1 {
+      font-size: 1.75rem;
+      line-height: 1.3;
+    }
+
+    .hero-text p {
+      font-size: 0.95rem;
+    }
+
+    .hero-mood-box {
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+
+    .product-name,
+    .product-mood,
+    .product-price {
+      font-size: 0.85rem;
+    }
+
+    /* Moods Grid */
+    .moods-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    /* Why Section */
+    .why-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .why-card h3 {
+      font-size: 1.1rem;
+    }
+
+    .why-card p {
+      font-size: 0.9rem;
+    }
+
+    /* Testimonials */
+    .testi-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      padding: 2rem 1.5rem;
+    }
+
+    .newsletter h2 {
+      font-size: 1.5rem;
+    }
+
+    .newsletter p {
+      font-size: 0.9rem;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+
+    .newsletter-form input,
+    .newsletter-form button {
+      width: 100%;
+    }
+
+    /* Footer */
+    .lp-footer {
+      padding: 2rem 1.5rem;
+    }
+
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .footer-col h4,
+    .footer-brand-name {
+      font-size: 0.95rem;
+    }
+
+    .footer-col ul li a {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .lp-nav {
+      padding: 0.75rem 1rem;
+    }
+
+    .brand {
+      font-size: 1rem;
+    }
+
+    .brand span {
+      font-size: 0.65rem;
+    }
+
+    .nav-right {
+      top: 65px;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 1.5rem 1rem;
+    }
+
+    .hero-text h1 {
+      font-size: 1.4rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .hero-text p {
+      font-size: 0.8rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .hero-mood-box {
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .mood-item {
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding: 0 0.5rem;
+    }
+
+    .product-card {
+      padding: 0.75rem;
+    }
+
+    .product-name,
+    .product-mood,
+    .product-price {
+      font-size: 0.75rem;
+    }
+
+    /* Moods Grid */
+    .moods-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0 0.5rem;
+    }
+
+    .mood-text {
+      font-size: 0.8rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Why Section */
+    .why-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0 0.5rem;
+    }
+
+    .why-card h3 {
+      font-size: 1rem;
+    }
+
+    .why-card p {
+      font-size: 0.8rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Testimonials */
+    .testi-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0 0.5rem;
+    }
+
+    .testi-card {
+      padding: 1rem;
+    }
+
+    .testi-text {
+      font-size: 0.8rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .testi-name {
+      font-size: 0.85rem;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      padding: 1.5rem 1rem;
+    }
+
+    .newsletter h2 {
+      font-size: 1.2rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .newsletter p {
+      font-size: 0.8rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .newsletter-form {
+      flex-direction: column;
+    }
+
+    .newsletter-form input,
+    .newsletter-form button {
+      width: 100%;
+      font-size: 0.85rem;
+    }
+
+    /* Footer */
+    .lp-footer {
+      padding: 1.5rem 1rem;
+    }
+
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .footer-col h4,
+    .footer-brand-name {
+      font-size: 0.85rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .footer-col ul li a {
+      font-size: 0.75rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .footer-bottom {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+{% endblock %}

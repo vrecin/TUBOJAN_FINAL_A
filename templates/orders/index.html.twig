@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orders index{% endblock %}
+
+{% block admin_page_title %}Orders List{% endblock %}
+
+{% block admin_content %}
+<div class="orders-container">
+    {# Flash Messages #}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {# Header #}
+    <div class="orders-header">
+        <div>
+            <h5><i class="fas fa-shopping-bag me-2"></i>All Orders</h5>
+            <p class="text-muted small mb-0">Manage and track customer orders</p>
+        </div>
+       
+    </div>
+
+    {# Orders Table #}
+    {% if orders is not empty %}
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Created</th>
+                    <th>Updated</th>
+                    <th>Status</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>
+                        <span class="order-id">#{{ order.id }}</span>
+                    </td>
+                    <td>
+                        <div class="customer-name">{{ order.user.name ?? order.user.username }}</div>
+                        <small class="text-muted">{{ order.user.email }}</small>
+                    </td>
+                    <td>
+                        <div class="order-date">
+                            <i class="far fa-calendar me-1"></i>
+                            {{ order.createdAt ? order.createdAt|date('M d, Y') : '-' }}
+                        </div>
+                        <small class="text-muted">{{ order.createdAt ? order.createdAt|date('h:i A') : '' }}</small>
+                    </td>
+                    <td>
+                        <div class="order-date">
+                            {% if order.updatedAt %}
+                                <i class="far fa-clock me-1"></i>
+                                {{ order.updatedAt|date('M d, Y') }}
+                                <br>
+                                <small class="text-muted">{{ order.updatedAt|date('h:i A') }}</small>
+                            {% else %}
+                                <span class="text-muted">-</span>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        {% if order.status == 'pending' %}
+                            <span class="status-badge status-pending">
+                                <i class="fas fa-clock"></i> Pending
+                            </span>
+                        {% elseif order.status == 'approved' %}
+                            <span class="status-badge status-approved">
+                                <i class="fas fa-check"></i> Approved
+                            </span>
+                        {% elseif order.status == 'confirmed' %}
+                            <span class="status-badge status-completed">
+                                <i class="fas fa-check-double"></i> Completed
+                            </span>
+                        {% elseif order.status == 'cancelled' %}
+                            <span class="status-badge status-cancelled">
+                                <i class="fas fa-times"></i> Cancelled
+                            </span>
+                        {% else %}
+                            <span class="status-badge status-default">
+                                <i class="fas fa-question"></i> {{ order.status }}
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if order.items|length > 0 %}
+                            <ul class="items-list">
+                            {% for item in order.items %}
+                                <li>{{ item.product.name }} <strong>(×{{ item.quantity }})</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            <em class="text-muted">No items</em>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="order-price">₱{{ order.total|number_format(2, '.', ',') }}</span>
+                    </td>
+                    <td>
+                        <div class="action-group">
+                            {# View #}
+                            <a href="{{ path('app_orders_show', {'id': order.id}) }}" 
+                               class="action-btn action-btn-view" 
+                               title="View Details">
+                                <i class="fas fa-eye"></i>
+                            </a>
+
+                            {# Approve (only Pending) #}
+                            {% if order.status == 'pending' %}
+                                <form method="post" action="{{ path('app_orders_approve', {'id': order.id}) }}" style="display:inline;">
+                                    <button type="submit" class="action-btn action-btn-approve" title="Approve Order" onclick="return confirm('Approve order #{{ order.id }}?')">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+
+                            {# Complete (only Approved) #}
+                            {% if order.status == 'Approved' %}
+                                <form method="post" action="{{ path('app_orders_complete', {'id': order.id}) }}" style="display:inline;">
+                                    <button type="submit" class="action-btn action-btn-complete" title="Complete Order" onclick="return confirm('Complete order #{{ order.id }}?')">
+                                        <i class="fas fa-check-double"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+
+                            {# Cancel (Pending or Approved) #}
+                            {% if order.status in ['Pending', 'Approved'] %}
+                                <form method="post" action="{{ path('app_orders_cancel', {'id': order.id}) }}" style="display:inline;">
+                                    <button type="submit" class="action-btn action-btn-cancel" title="Cancel Order" onclick="return confirm('Cancel order #{{ order.id }}?')">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </form>
+                            {% endif %}
+
+                            {# Edit (only Pending) #}
+                            {% if order.status == 'Pending' %}
+                                <a href="{{ path('app_orders_edit', {'id': order.id}) }}" 
+                                   class="action-btn action-btn-edit" 
+                                   title="Edit Order">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            {% endif %}
+
+                            {# Delete #}
+                            {{ include('orders/_delete_form.html.twig') }}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-orders">
+        <i class="fas fa-shopping-bag"></i>
+        <h5>No Orders Yet</h5>
+        <p>Orders will appear here once customers start placing them</p>
+        <a href="{{ path('app_orders_new') }}" class="btn btn-create-order">
+            <i class="fas fa-plus me-2"></i>Create First Order
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Profile{% endblock %}
+
+{% block admin_page_title %}My Profile{% endblock %}
+
+{% block admin_content %}
+<div class="moodura-profile-container">
+    
+    <div class="row g-4">
+        {# Left Column - Profile Card #}
+        <div class="col-lg-4">
+            <div class="moodura-profile-card">
+                <div class="profile-card-header">
+                    <div class="avatar-circle">
+                        {{ app.user.name|slice(0, 1)|upper }}
+                    </div>
+                </div>
+                
+                <div class="profile-card-body">
+                    <h2 class="profile-display-name">{{ app.user.name }}</h2>
+                    <p class="profile-handle">@{{ app.user.username }}</p>
+                    
+                    <div class="profile-roles-container">
+                        {% for role in app.user.roles %}
+                            <span class="moodura-role-badge">{{ role|replace({'ROLE_': ''})|title }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="profile-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Joined {{ app.user.createdAt|date('M Y') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Quick Actions Card #}
+            <div class="moodura-actions-card">
+                <h3 class="actions-card-title">Quick Actions</h3>
+                
+                <div class="actions-list">
+                    <a href="{{ path('app_change_admin_password') }}" class="moodura-action-link primary">
+                        <i class="fas fa-key"></i>
+                        <span>Change Password</span>
+                    </a>
+                    <a href="{{ path('app_admin_dashboard') }}" class="moodura-action-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="{{ path('app_logout') }}" class="moodura-action-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {# Right Column - Information Sections #}
+        <div class="col-lg-8">
+            {# Account Details #}
+            <div class="moodura-info-card">
+                <div class="info-card-header">
+                    <h3 class="info-card-title">Account Details</h3>
+                </div>
+                
+                <div class="info-card-content">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label class="info-label">Full Name</label>
+                            <div class="info-text">{{ app.user.name }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label class="info-label">Username</label>
+                            <div class="info-text">{{ app.user.username }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label class="info-label">Email Address</label>
+                            <div class="info-text">{{ app.user.email }}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <label class="info-label">Account Type</label>
+                            <div class="info-text">
+                                {% for role in app.user.roles %}
+                                    <span class="inline-role-badge">{{ role|replace({'ROLE_': ''})|title }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Activity Timeline #}
+            <div class="moodura-info-card">
+                <div class="info-card-header">
+                    <h3 class="info-card-title">Activity Timeline</h3>
+                </div>
+                
+                <div class="info-card-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Account Created</div>
+                                <div class="timeline-date">{{ app.user.createdAt|date('F d, Y') }}</div>
+                            </div>
+                        </div>
+                        
+                        {% if app.user.updatedAt %}
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Last Profile Update</div>
+                                <div class="timeline-date">{{ app.user.updatedAt|date('F d, Y h:i A') }}</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

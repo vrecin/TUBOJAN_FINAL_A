@@ -1,0 +1,56 @@
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped   
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports: 
+      - "3306:3306"
+    volumes: 
+      - mysql_data:/var/lib/mysql
+    networks:
+      - moodura_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moodura_app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/html
+      - app_var:/var/www/html/var
+    networks:
+      - moodura_network
+    depends_on:
+      - mysql
+    environment:
+      APP_ENV: prod
+      APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?serverVersion=8.0&charset=utf8mb4"
+    ports:
+      - "8000:8080"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    environment: 
+      PMA_HOST: mysql
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    ports: 
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - moodura_network
+
+volumes:
+  mysql_data:
+  app_var:
+
+networks:
+  moodura_network:

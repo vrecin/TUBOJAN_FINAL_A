@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order #{{ order.id }}{% endblock %}
+
+{% block admin_content %}
+<div class="container py-5">
+    
+    {# Header with Order Number #}
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="mb-1" style="font-family: 'Playfair Display', serif; color: #2E073F; font-weight: 700;">
+                Order #{{ order.id }}
+            </h1>
+            {% if not is_granted('ROLE_STAFF') %}
+                <small class="text-muted" style="font-family: 'Roboto', sans-serif;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                    </svg>
+                    Read-only view
+                </small>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Order Details Card #}
+    <div class="card mb-4 border-0 rounded-4 overflow-hidden" style="box-shadow: 0 5px 20px rgba(46, 7, 63, 0.1);">
+        <div style="height: 4px; background: linear-gradient(90deg, #2E073F 0%, #A976D1 100%);"></div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="text-uppercase fw-bold mb-1" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                            Created At
+                        </label>
+                        <p class="mb-0" style="font-family: 'Roboto', sans-serif; color: #2E073F;">
+                            {{ order.createdAt|date('d/m/Y H:i A') }}
+                        </p>
+                    </div>
+                    <div>
+                        <label class="text-uppercase fw-bold mb-1" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                            Updated At
+                        </label>
+                        <p class="mb-0" style="font-family: 'Roboto', sans-serif; color: #2E073F;">
+                            {{ order.updatedAt|date('d/m/Y H:i A') }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="text-uppercase fw-bold mb-2" style="font-family: 'Roboto', sans-serif; font-size: 0.75rem; color: #2E073F; letter-spacing: 1px;">
+                        Status
+                    </label>
+                    <div>
+                        {% if order.status == 'pending' %}
+                            <span class="badge px-4 py-2 rounded-pill" style="background: #ffc107; color: #000; font-family: 'Roboto', sans-serif; font-size: 0.9rem;">{{ order.status }}</span>
+                        {% elseif order.status == 'Approved' %}
+                            <span class="badge px-4 py-2 rounded-pill" style="background: linear-gradient(135deg, #2E073F 0%, #A976D1 100%); color: white; font-family: 'Roboto', sans-serif; font-size: 0.9rem;">{{ order.status }}</span>
+                        {% elseif order.status == 'Completed' %}
+                            <span class="badge px-4 py-2 rounded-pill" style="background: #28a745; color: white; font-family: 'Roboto', sans-serif; font-size: 0.9rem;">{{ order.status }}</span>
+                        {% elseif order.status == 'Cancelled' %}
+                            <span class="badge px-4 py-2 rounded-pill" style="background: #dc3545; color: white; font-family: 'Roboto', sans-serif; font-size: 0.9rem;">{{ order.status }}</span>
+                        {% else %}
+                            <span class="badge px-4 py-2 rounded-pill" style="background: #6c757d; color: white; font-family: 'Roboto', sans-serif; font-size: 0.9rem;">{{ order.status }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% if is_granted('ROLE_STAFF') and order.status == 'pending' %}
+                <div class="mt-4 pt-3 border-top" style="border-color: rgba(46, 7, 63, 0.1) !important;">
+                    <a href="{{ path('app_orders_edit', {id: order.id}) }}" 
+                       class="btn px-4 py-2 rounded-pill"
+                       style="background: linear-gradient(135deg, #2E073F 0%, #A976D1 100%); color: white; font-family: 'Roboto', sans-serif; font-weight: 500; border: none;">
+                        Edit Status
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Items Table Card #}
+    <div class="card border-0 rounded-4 overflow-hidden" style="box-shadow: 0 5px 20px rgba(46, 7, 63, 0.1);">
+        <div style="height: 4px; background: linear-gradient(90deg, #A976D1 0%, #2E073F 100%);"></div>
+        <div class="card-header border-0 py-3" style="background: rgba(169, 118, 209, 0.05);">
+            <h5 class="mb-0" style="font-family: 'Playfair Display', serif; color: #2E073F; font-weight: 600;">
+                Order Items
+            </h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead style="background: rgba(46, 7, 63, 0.05);">
+                        <tr>
+                            <th class="border-0 py-3" style="font-family: 'Roboto', sans-serif; color: #2E073F; font-weight: 600;">Product</th>
+                            <th class="border-0 py-3" style="font-family: 'Roboto', sans-serif; color: #2E073F; font-weight: 600;">Quantity</th>
+                            <th class="border-0 py-3" style="font-family: 'Roboto', sans-serif; color: #2E073F; font-weight: 600;">Price</th>
+                            <th class="border-0 py-3" style="font-family: 'Roboto', sans-serif; color: #2E073F; font-weight: 600;">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set total = 0 %}
+                        {% for item in order.items %}
+                            {% set subtotal = item.quantity * (item.price is not null ? item.price : item.product.price) %}
+                            {% set total = total + subtotal %}
+                            <tr>
+                                <td class="py-3" style="font-family: 'Roboto', sans-serif; color: #2E073F;">{{ item.product.name }}</td>
+                                <td class="py-3" style="font-family: 'Roboto', sans-serif; color: #2E073F;">{{ item.quantity }}</td>
+                                <td class="py-3" style="font-family: 'Roboto', sans-serif; color: #2E073F;">₱{{ (item.price is not null ? item.price : item.product.price)|number_format(2, '.', ',') }}</td>
+                                <td class="py-3" style="font-family: 'Roboto', sans-serif; color: #2E073F; font-weight: 600;">₱{{ subtotal|number_format(2, '.', ',') }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5" style="font-family: 'Roboto', sans-serif; color: #6c757d;">
+                                    No items in this order.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot style="background: linear-gradient(135deg, rgba(46, 7, 63, 0.05) 0%, rgba(169, 118, 209, 0.05) 100%);">
+                        <tr>
+                            <th colspan="3" class="text-end py-3 border-0" style="font-family: 'Playfair Display', serif; color: #2E073F; font-weight: 700;">Total:</th>
+                            <th class="py-3 border-0" style="font-family: 'Playfair Display', serif; color: #A976D1; font-weight: 700; font-size: 1.3rem;">₱{{ total|number_format(2, '.', ',') }}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('app_orders_index') }}" 
+       class="btn btn-outline-secondary mt-4 px-4 py-2 rounded-pill"
+       style="font-family: 'Roboto', sans-serif; font-weight: 500; border-color: #2E073F; color: #2E073F;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+        Back to Orders
+    </a>
+</div>
+{% endblock %}
